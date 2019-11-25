@@ -19,25 +19,11 @@ export class TasksService {
         @InjectRepository(TaskRepository)
         private taskRepository: TaskRepository,
     ){}
-    // private tasks: Task[] = [];
 
-    // getAllTasks(): Task[]{
-    //     return this.tasks;
-    // }
 
-    // getTasksWithFilters(filterDto: GetTasksFilterDto): Task[]{
-    //     const {status, search} = filterDto;
-    //     let tasks = this.getAllTasks();
-    //     if(status){
-    //         tasks = tasks.filter(task => task.status === status)
-    //     }
-    //     if(search){
-    //         tasks = tasks.filter(task => 
-    //             task.title.includes(search) || 
-    //             task.description.includes(search))
-    //     }
-    //     return tasks;
-    // }
+    async getTasks(filterDto: GetTasksFilterDto): Promise<Task[]>{
+        return this.taskRepository.getTasks(filterDto);
+    }
 
 
     // ** Any async method has to return as Promise type 
@@ -58,8 +44,9 @@ export class TasksService {
         return this.taskRepository.createTask(createTaskDto);
     }
 
-    //
+    
     async deleteTaskById(id: number): Promise<void>{
+        //using repo method delete, since we know the condition here, id has to match item
         const result = await this.taskRepository.delete(id);
         console.log(result);
         if(result.affected === 0){
@@ -67,10 +54,13 @@ export class TasksService {
         }
     }
 
-    // updateTaskStatus(id: string, status: TaskStatus): Task{
-    //     const task = this.getTaskById(id);
-    //     task.status = status;
-    //     return task;
-    // }
+    async updateTaskStatus(id: number, status: TaskStatus):Promise<Task>{
+        const task = await this.getTaskById(id);
+        task.status = status;
+        //where does this save method come from? the Entity?
+        await task.save();
+        return task;
+    }
+
 
 }
