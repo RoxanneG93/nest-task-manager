@@ -3,7 +3,19 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-input ItemInput {
+input BuildingInput {
+  number: Float!
+  name: String
+  address: String
+}
+
+type BuildingType {
+  number: Float!
+  name: String!
+  address: String!
+}
+
+input ItemDetailsInput {
   name: String!
   price: Int!
   description: String!
@@ -16,12 +28,26 @@ type ItemType {
 }
 
 type Mutation {
-  createItem(input: ItemInput!): ItemType!
-  updateItem(input: ItemInput!, id: Float!): ItemType!
+  createItem(input: ItemDetailsInput!): ItemType!
+  updateItem(input: ItemDetailsInput!, id: Float!): ItemType!
   deleteItem(id: Float!): ItemType!
+  createBuilding(input: BuildingInput!): BuildingType!
+  deleteBuilding(input: BuildingInput!): BuildingType!
+  createRoom(input: RoomInput!): RoomType!
 }
 
 type Query {
   items: [ItemType!]!
   hello: String!
+}
+
+input RoomInput {
+  number: Float!
+  name: String!
+  buildingNo: Float!
+}
+
+type RoomType {
+  number: Float!
+  name: String!
 }

@@ -1,4 +1,4 @@
-import {BaseEntity, Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
+import {BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from 'typeorm';
 import { TaskStatus } from './task-status.enum';
 
 // These orm decorators specify the data types of our objects 
@@ -16,6 +16,13 @@ export class Task extends BaseEntity{
 
     @Column()
     status: TaskStatus;
+
+    // before adding this the db already had current_timestamp as defaul in db
+    @CreateDateColumn()
+    createAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
 
 }
 

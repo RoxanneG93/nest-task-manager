@@ -1,6 +1,8 @@
-import {InputType, Field, Int} from 'type-graphql';
+import {InputType, Field, Int, ObjectType} from 'type-graphql';
 // specified type for item object that we will query
-@InputType()
+// @InputType()
+@ObjectType({ isAbstract: true })
+@InputType('ItemDetailsInput', { isAbstract: true })
 export class ItemInput {
     @Field()
     readonly name: string;
